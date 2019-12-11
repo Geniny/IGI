@@ -1,0 +1,92 @@
+﻿@model AntiAuc.Models.EditModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<br />
+<div class="container">
+    <div class="card-deck mb-3 text-center ">
+        <div class="card mb-4 shadow-sm" >
+            <div class="card-header text-center" style="background-color:black;">
+                <h4 class="my-0 font-weight-normal" style="color:orange;">@Localizer["header"]</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+                    @{
+                        if (User.IsInRole("admin"))
+                        {
+
+                            <input type="hidden" value="@ViewBag.User.Id" asp-for="UserId">
+                            <div>
+                                <label asp-for="Email">@Localizer["email"]:</label><br />
+                                <input type="text" asp-for="Email" value="@ViewBag.User.Email" />
+                                <span asp-validation-for="Email" />
+                            </div>
+                            <div>
+                                <label asp-for="NewPassword">@Localizer["password"]:</label><br />
+                                <input type="text" asp-for="NewPassword" value="@ViewBag.User.Password" />
+                                <span asp-validation-for="NewPassword" />
+                            </div>
+                            <div>
+                                <label asp-for="Deposit">@Localizer["deposit"]:</label><br />
+                                <input asp-for="Deposit" value="@ViewBag.User.Deposit" />
+                                <span asp-validation-for="Deposit" />
+                            </div>
+                            <div>
+                                <label asp-for="RoleId">@Localizer["role"]</label><br />
+                                <input asp-for="RoleId" value="@ViewBag.User.RoleId" />
+                                <span asp-validation-for="RoleId" />
+                            </div>
+                            <input type="hidden" value="@ViewBag.User.Password" asp-for="OldPassword">
+
+                        }
+                        else
+                        {
+                            <div>
+                                <label asp-for="OldPassword">@Localizer["password"]: </label><br />
+                                <input asp-for="OldPassword" />
+                                <span asp-validation-for="OldPassword" />
+                            </div>
+                            <div>
+                                <label asp-for="NewPassword">@Localizer["confirmpassword"]:</label><br />
+                                <input asp-for="NewPassword" />
+                                <span asp-validation-for="NewPassword" />
+                            </div>
+                            <input type="hidden" value="@ViewBag.User.Email" asp-for="Email">
+                            <input type="hidden" value="@ViewBag.User.Deposit" asp-for="Deposit">
+                            <input type="hidden" value="@ViewBag.User.RoleId" asp-for="RoleId">
+                            <input type="hidden" value="@ViewBag.User.Id" asp-for="UserId">
+
+                        }
+                    }
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" value="@Localizer["but"]" class="btn btn-outline-warning btn-block" />
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <environment names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+        </script>
+    </environment>
+
+}

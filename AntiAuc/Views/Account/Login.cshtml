@@ -1,0 +1,56 @@
+﻿@model AntiAuc.Models.LoginModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<div class="container">
+    <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+        <div style="
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                transform: translate(-50%, -50%)">
+
+            <h2 class="text-center" style="color:orange;">@Localizer["but"]</h2>
+            <div class="form-group">
+                <input type="email" style="margin-bottom:0px;" size="50" asp-for="Email" placeholder="@Localizer["email"]" />
+                <span asp-validation-for="Email" />
+            </div>
+
+            <div class="form-group">
+                <input type="password" style="margin-top:0px;" asp-for="Password" size="50" placeholder="@Localizer["password"]" />
+                <span asp-validation-for="Password" />
+            </div>
+
+
+            <div class="btn-group" role="group" style="
+                background-color:#332F2E; margin-left:40%;">
+                <button type="submit" class="btn btn-lg btn-outline-warning">@Localizer["but"]</button>
+                <button class="btn btn-lg btn-outline-warning" value="Sign ing" asp-action="Register" asp-controller="Account">@Localizer["but1"]</button>
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+@section scripts{
+
+    <environment names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+        </script>
+    </environment>
+}

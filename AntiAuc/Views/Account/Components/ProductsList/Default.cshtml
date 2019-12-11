@@ -1,0 +1,52 @@
+﻿@model IEnumerable<AntiAuc.Models.Product>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+<div class="card mb-4 shadow-sm">
+    <div class="card-header" style="background-color:black">
+        <h4 class="my-0 font-weight-normal" style="color:orange;">
+            @Localizer["count"]: @{
+                if (Model != null)
+                {
+                    @Model.Count()
+                }
+                else
+                {
+                    {<text>0</text>}
+            }
+            }
+        </h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            @{
+                if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        {
+                            @if (item.Users.First().User.Email == ViewBag.UserBag.Email)
+                            {
+                                <li class="list-group-item">
+                                    <h3>
+                                        @if (@item.IsAvailable)
+                                        {
+                                            <a asp-action="Info" asp-controller="Product" asp-route-id="@item.ProductId">@item.ProductName</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="color: orangered;" asp-action="Info" asp-controller="Product" asp-route-id="@item.ProductId">@item.ProductName</a>
+                                        }
+                                    </h3>
+                                </li>
+                            }
+
+                        }
+                    }
+                }
+            }
+        </ul>
+    </div>
+
+</div>
+

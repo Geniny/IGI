@@ -1,0 +1,71 @@
+﻿@model IEnumerable<AntiAuc.Models.Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+<style>
+    .card-columns {
+        column-count: 3;
+    }
+</style>
+
+<div class="container">
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        @if (User.Identity.IsAuthenticated)
+        {
+        <a class="btn btn-outline-warning" style="color:orange;" asp-controller="Product" asp-action="AddProduct">@Localizer["add"]</a>
+        }
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" class="btn btn-outline-warning dropdown-toggle" style="color:orange;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @Localizer["sort"]
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" asp-action="Index" asp-route-sort="Price">@Localizer["price"]</a>
+                <a class="dropdown-item" asp-action="Index" asp-route-sort="Name">@Localizer["name"]</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="card-columns">
+        @{
+            foreach (var prod in Model)
+            {
+
+                <div class="card border-warning" style="height:auto;">
+                    <img src="@prod.Image" class="card-img-top" style="height: 16rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@prod.ProductName</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@Localizer["curprice"]: @prod.CurrentPrice</h6>
+                        <h6 class="card-text">@Localizer["desc"]: @prod.ShortDescription</h6>
+                        <div class="row">
+                            <div class="col-7">
+                                <a class="card-link disabled text-muted h6">@prod.DateOfCreation.ToUniversalTime()</a>
+                            </div>
+                            <div class="col-5">
+                                <a class="card-link btn btn-block btn-outline-warning" asp-area="" asp-route-id="@prod.ProductId" asp-controller="Product" asp-action="Info">@Localizer["view"]</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        }
+
+    </div>
+    <footer class="container " style="color:orange;">
+        <p>&copy; 2019 - AntiAuc</p>
+    </footer>
+
+
+</div>
+
+@section scripts{
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+}

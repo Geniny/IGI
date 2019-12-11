@@ -1,0 +1,95 @@
+﻿@model IEnumerable<AntiAuc.Models.User>
+@{
+    ViewData["Title"] = "ModeratorConfig";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+<head>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+
+<br />
+
+<div class="container">
+    <div class="card-deck mb-3 text-center ">
+        <div class="card mb-4 shadow-sm" style="height: auto">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">@Localizer["users"]</h4>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr><th>@Localizer["email"]</th><th>@Localizer["role"]</th><th></th></tr>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Email</td>
+                            <td>@user.RoleId</td>
+                            <td>
+                                <form asp-action="Delete" asp-controller="Account" asp-route-id="@user.Id" method="post">
+                                    <a class="btn btn-sm btn-success" asp-action="Edit" asp-controller="Account" asp-route-id="@user.Id">@Localizer["edit"]</a>
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        @Localizer["delete"]
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">@Localizer["products"]</h4>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>@Localizer["name"]</th>
+                        <th>@Localizer["id"]</th>
+                        <th></th>
+                    </tr>
+
+                    @{
+                        List<Product> products = new List<Product>();
+                        foreach (var user in Model)
+                        {
+                            @foreach (var product in user.Products)
+                            {
+
+
+                                if (!products.Contains(product.Product))
+                                {
+                                    products.Add(product.Product);
+                                    <tr>
+                                        @if (product.Product.IsAvailable)
+                                        {
+                                            <td style="color:green;">@product.Product.ProductName</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="color:red;">@product.Product.ProductName</td>
+
+                                        }
+                                        <td>@product.Product.ProductId</td>
+                                        <td>
+                                            <form asp-action="Delete" asp-controller="Product" asp-route-id="@product.Product.ProductId" method="post">
+                                                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-controller="Product" asp-route-id="@product.Product.ProductId">@Localizer["edit"]</a>
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    @Localizer["delete"]
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@model AntiAuc.Models.EditProductModel
+@{
+    ViewData["Title"] = "Edit";
+}
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<br />
+<div class="container">
+    @{
+        if (User.IsInRole("admin"))
+        {
+            <div class="card mb-4 shadow-sm border-warning" style="">
+                <div class="card-header" style="background-color:#000000">
+                    <h4 class="my-0 font-weight-normal" style="color:orange; background-color:#000000">@Localizer["header"]</h4>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post" enctype="multipart/form-data" asp-action="Edit">
+                        <div class="validation" asp-validation-summary="ModelOnly"></div>
+                        <div class="form-group">
+                            <label asp-for="ProductName">@Localizer["pname"]:</label><br />
+                            <input type="text" asp-for="ProductName" value="@ViewBag.Product.ProductName" />
+                            <span asp-validation-for="ProductName" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description">@Localizer["pdesc"]:</label><br />
+                            <textarea asp-for="Description">@ViewBag.Product.Description</textarea>
+                            <span asp-validation-for="Description" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ShortDescription">@Localizer["psdesc"]:</label><br />
+                            <input asp-for="ShortDescription" value="@ViewBag.Product.ShortDescription" />
+                            <span asp-validation-for="ShortDescription" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CurrentPrice">@Localizer["pprice"]:</label><br />
+                            <input asp-for="CurrentPrice" value="@ViewBag.Product.CurrentPrice" />
+                            <span asp-validation-for="CurrentPrice" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DateOfCreation">@Localizer["pdoc"]: </label><br />
+                            <input type="datetime" asp-for="DateOfCreation" value="@ViewBag.Product.DateOfCreation" />
+                            <span asp-validation-for="DateOfCreation" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DateOfEnding">@Localizer["pdof"]:</label><br />
+                            <input type="datetime" asp-for="DateOfEnding" value="@ViewBag.Product.DateOfEnding" />
+                            <span asp-validation-for="DateOfEnding" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="File">@Localizer["pimage"]:</label>
+                            <input asp-for="File" type="file" />
+                            <span asp-validation-for="File" />
+                        </div>
+                        <input type="hidden" asp-for="Image" value="@ViewBag.Product.Image" />
+                        <input type="hidden" value="@ViewBag.Product.ProductId" asp-for="ProductId" />
+                        <input type="hidden" value="@ViewBag.Product.IsAvailable" asp-for="IsAvailable" />
+
+                        <div class="form-group">
+                            <br />
+                            <input type="submit" value="@Localizer["but"]" class="btn btn-outline-warning btn-block" />
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        }
+    }
+</div>
+
+@section scripts{
+
+    <environment names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+        </script>
+    </environment>
+}

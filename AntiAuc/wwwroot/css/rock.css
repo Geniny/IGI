@@ -1,0 +1,15 @@
+﻿@font-face {
+    font-family: 'ROCK';
+    src: url(../fonts/BRS.otf);
+    font-weight: normal;
+}
+H2 {
+    color: #000080;
+    font-size: 200%;
+    font-family: "ROCK";
+    text-align: center;
+}
+
+P {
+    padding-left: 20px;
+}

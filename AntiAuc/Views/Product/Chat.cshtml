@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-action="CreateMessage" method="post">
+        <input type="hidden" value="@User.Identity.Name" id="userInput">
+        <input type="text" style="width: 14rem; height: 1.8rem;" id="messageInput" name="model.Text" />
+        <input type="hidden" value="@DateTime.Now" name="model.When" />
+        <button class="btn" style="background-color:white" id="sendButton" value="Send Message"><img src="~/images/email.png" height="25" width="23"></button>
+    </form>
+}
+else
+{
+    <h4 style="color: orange; text-align:center;">@Localizer["mes"]</h4>
+}
+<hr />
+<div class="container text-left">
+    <ul id="messagesList"></ul>
+</div>
+<script src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

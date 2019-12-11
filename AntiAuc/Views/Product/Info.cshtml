@@ -1,0 +1,109 @@
+﻿@model AntiAuc.Models.BetModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Info";
+
+}
+@using AntiAuc.TagHelpers
+
+
+<div class="container">
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="card border-warning shadow-sm" style="height:35rem;">
+                    <div class="row no-gutters">
+                        <div class="col-sm-7">
+                            <img src="@ViewBag.product.Image" class="card-img" style="width: 100%; height: 100%">
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="card-body" style="height: 35rem;">
+                                <h1 class="card-title">@ViewBag.product.ProductName</h1>
+                                <h5 class="card-subtitle text-muted">
+                                    @Localizer["owner"]: <profile of="@(((List<UserProduct>)ViewBag.product.Users).First().User)" />
+                                </h5>
+                                <br />
+                                <h6 class="card-subtitle text-muted ">@ViewBag.product.DateOfCreation - @ViewBag.product.DateOfEnding</h6>
+                                <hr />
+                                <p class="card-text" style="height: 16rem;">@ViewBag.product.Description</p>
+                                <footer><h5>@Localizer["lprice"]: @ViewBag.product.CurrentPrice</h5></footer>
+                                @{
+                                    if (ViewBag.product.IsAvailable)
+                                    {
+                                        if (((List<UserProduct>)ViewBag.product.Users).Last().User.Email != User.Identity.Name && User.Identity.IsAuthenticated)
+                                        {
+                                            <form asp-action="Info" asp-controller="Product" asp-route-id="@ViewBag.product.ProductId" asp-anti-forgery="true">
+                                                <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+                                                <input class="card-link " style="width:5rem; " asp-for="NewPrice" />
+                                                @Html.ValidationMessageFor(model => model.NewPrice)
+                                            <button class="card-link btn btn-outline-warning " type="submit" style="right: 0;">
+                                                @Localizer["lbet"]
+                                            </button>
+
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <h6 class="card-link text-center" style="color:orange;">@Localizer["lotowner"]</h6>
+                                        }
+
+                                    }
+                                    else
+                                    {
+
+                            <h6 class="card-link text-center" style="color:orange; font-family:'ROCK';">@Localizer["lavail"]</h6>
+
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card border-warning" style="height: 35rem;">
+                    <div class="card-header text-center" style="background-color:#000000; height: 3rem;"><h4 style="color:orange;">@Localizer["chat"]</h4></div>
+                    <div class="card-body" style="max-height: 32rem; height: 32rem;">
+                        @await Html.PartialAsync("Chat")
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+@section scripts{
+
+    <environment names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+        </script>
+    </environment>
+}
+

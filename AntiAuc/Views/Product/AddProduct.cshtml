@@ -1,0 +1,75 @@
+﻿@model AntiAuc.Models.ProductModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+<br />
+<div class="container">
+    <div class="card-deck mb-3 text-center ">
+        <div class="card mb-4 shadow-sm border-warning">
+            <div class="card-header">
+                <h4 class="my-0 text-center">@Localizer["header"]</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="AddProduct" asp-controller="Product" asp-anti-forgery="true" enctype="multipart/form-data">
+                    <div class="validation" asp-validation-summary="ModelOnly"></div>
+                    <div>
+                        <div class="form-group">
+                            <label asp-for="ProductName">@Localizer["pname"]:</label>
+                            <input type="text" asp-for="ProductName" />
+                            <span asp-validation-for="ProductName" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ShortDescription">@Localizer["psdesc"]:</label>
+                            <input asp-for="ShortDescription" />
+                            <span asp-validation-for="ShortDescription" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description">@Localizer["pdesc"]:</label>
+                            <input asp-for="Description" />
+                            <span asp-validation-for="Description" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DateOfEnding">@Localizer["pdate"]:</label>
+                            <input type="number" asp-for="DateOfEnding" />
+                            <span asp-validation-for="DateOfEnding" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="StartPrice">@Localizer["pprice"]:</label>
+                            <input asp-for="StartPrice" />
+                            <span asp-validation-for="StartPrice" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="File">@Localizer["pimage"]:</label>
+                            <input asp-for="File" type="file" />
+                            <span asp-validation-for="File" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="@Localizer["but"]" class="btn btn-outline-warning btn-block" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <environment names="Development">
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+                asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+        </script>
+    </environment>
+}
